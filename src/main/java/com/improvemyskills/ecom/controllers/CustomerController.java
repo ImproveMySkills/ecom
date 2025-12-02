@@ -5,6 +5,8 @@ import com.improvemyskills.ecom.services.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class CustomerController {
@@ -27,6 +29,13 @@ public class CustomerController {
     ResponseEntity<Customer> findByCustomerId(@PathVariable Long id){
         return ResponseEntity.ok(
                 customerService.findById(id).get()
+        );
+    }
+
+    @GetMapping("/customers")
+    ResponseEntity<List<Customer>> getAllCustomers(){
+        return ResponseEntity.ok(
+                customerService.getAllCustomers()
         );
     }
 }

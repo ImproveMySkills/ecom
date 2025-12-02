@@ -6,6 +6,7 @@ import com.improvemyskills.ecom.services.CustomerService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,6 +27,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Optional<Customer> findById(Long customerId) {
-        return customerRepository.findById(customerId);
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if (!customer.isPresent()){
+            throw new RuntimeException(String.format("No customer found with ID %s", customerId));
+        }
+        return customer;
+    }
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
     }
 }
