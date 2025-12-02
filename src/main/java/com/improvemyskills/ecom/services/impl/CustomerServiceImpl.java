@@ -4,6 +4,7 @@ import com.improvemyskills.ecom.models.Customer;
 import com.improvemyskills.ecom.repository.CustomerRepository;
 import com.improvemyskills.ecom.services.CustomerService;
 import jakarta.transaction.Transactional;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
