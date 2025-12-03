@@ -1,9 +1,14 @@
 package com.improvemyskills.ecom.services.impl;
 
+import com.improvemyskills.ecom.dto.ProductDto;
 import com.improvemyskills.ecom.models.Product;
 import com.improvemyskills.ecom.repository.ProductRepository;
 import com.improvemyskills.ecom.services.ProductService;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +42,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return getAllDiscountProducts(0.9);
+        //return getAllDiscountProducts(0.9);
+        return productRepository.findAll();
     }
 
     @Override
@@ -49,7 +55,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProductsByCategoryId(Long categoryId) {
-        return productRepository.getByCategoryId(categoryId);
+        return productRepository.getByCategory_Id(categoryId);
+    }
+
+    @Override
+    public Page<Product> getPaginatedProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        return productRepository.findAll(pageable);
+
     }
 
     private List<Product> discountProcessor(List<Product> products, Double discount){
@@ -60,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
                     product.setDiscount(p.getDiscount());
                     product.setName(p.getName());
                     product.setReference(p.getReference());
-                    product.setCategoryId(p.getCategoryId());
+                    product.setCategory(p.getCategory());
                     return product;
                 })
                 .collect(Collectors.toList());

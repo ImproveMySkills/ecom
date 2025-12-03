@@ -2,6 +2,7 @@ package com.improvemyskills.ecom.controllers;
 
 import com.improvemyskills.ecom.models.Product;
 import com.improvemyskills.ecom.services.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -54,5 +55,13 @@ public class ProductController {
                 productService.update(product)
         );
     }
+
+
+    @GetMapping("/products/paginated")
+    public Page<Product> getProducts(@RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "10") int size) {
+        return productService.getPaginatedProducts(page, size);
+    }
+
 
 }

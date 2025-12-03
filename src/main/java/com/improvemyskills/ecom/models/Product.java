@@ -1,9 +1,8 @@
 package com.improvemyskills.ecom.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 public class Product {
@@ -13,7 +12,11 @@ public class Product {
     private Long id;
     private String reference;
     private String name;
-    private Long categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonBackReference
+    //@JsonIgnore
+    private Category category;
     private Double price;
     private Double discount;
 
@@ -37,12 +40,12 @@ public class Product {
         this.name = name;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Double getPrice() {
