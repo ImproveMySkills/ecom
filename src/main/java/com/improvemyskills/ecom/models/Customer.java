@@ -1,8 +1,10 @@
 package com.improvemyskills.ecom.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Customer {
@@ -14,6 +16,18 @@ public class Customer {
     private String lastName;
     private String email;
     private LocalDateTime inscriptionDate;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Order> orders;
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 
     public Long getId() {
         return id;
